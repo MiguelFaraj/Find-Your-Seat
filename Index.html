@@ -1,18 +1,23 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Miguel & Olivia</title>
+<title>Miguel & Olivia Wedding</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
 
 :root{
-    --gold:#d4af37;
-    --glass:rgba(255,255,255,0.12);
+    --gold:#C8A96A;
+    --gold-light:#E8D3A7;
+    --text:#2D2D2D;
+    --background:#FAFAF8;
+    --card:#FFFFFF;
+    --border:#ECEAE4;
 }
 
 *{
@@ -21,101 +26,60 @@
     box-sizing:border-box;
 }
 
-html,body{
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    font-family:'Montserrat',sans-serif;
+html{
+    scroll-behavior:smooth;
 }
 
 body{
-    background:
-    linear-gradient(
-        rgba(0,0,0,.35),
-        rgba(0,0,0,.55)
-    ),
-    url("https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1920")
-    center center/cover no-repeat;
-
-    color:white;
-}
-
-.page{
-    position:absolute;
-    inset:0;
-    padding:40px 25px 110px;
-    overflow-y:auto;
-
-    display:none;
-    animation:fade .4s ease;
-}
-
-.page.active{
-    display:block;
-}
-
-@keyframes fade{
-    from{
-        opacity:0;
-        transform:translateY(15px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
+    font-family:'Inter',sans-serif;
+    background:var(--background);
+    color:var(--text);
+    padding-bottom:90px;
 }
 
 .hero{
-    min-height:80vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
+    padding:80px 25px 60px;
     text-align:center;
 }
 
 .monogram{
     width:90px;
     height:90px;
-
-    border:2px solid rgba(255,255,255,.5);
+    border:2px solid var(--gold);
     border-radius:50%;
-
+    margin:0 auto 25px;
     display:flex;
     align-items:center;
     justify-content:center;
-
-    margin-bottom:25px;
-
-    backdrop-filter:blur(10px);
-}
-
-.monogram span{
-    font-size:32px;
     font-family:'Playfair Display',serif;
+    font-size:28px;
+    color:var(--gold);
 }
 
-h1{
+.hero h1{
     font-family:'Playfair Display',serif;
-    font-size:3.2rem;
-    line-height:1.1;
-    margin-bottom:15px;
+    font-size:3rem;
+    font-weight:700;
+    margin-bottom:12px;
 }
 
-.subtitle{
-    max-width:320px;
-    line-height:1.7;
-    opacity:.9;
+.hero p{
+    max-width:350px;
+    margin:auto;
+    color:#666;
+    line-height:1.8;
+}
+
+.section{
+    padding:15px 20px 35px;
 }
 
 .card{
-    backdrop-filter:blur(18px);
-    background:var(--glass);
-
-    border:1px solid rgba(255,255,255,.15);
-
+    background:var(--card);
+    border:1px solid var(--border);
     border-radius:28px;
     padding:25px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.04);
 }
 
 .section-title{
@@ -124,125 +88,124 @@ h1{
     margin-bottom:20px;
 }
 
+.search-container{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
 input{
     width:100%;
     padding:16px;
-
-    border:none;
-    border-radius:15px;
-
+    border:1px solid #ddd;
+    border-radius:16px;
     font-size:16px;
     outline:none;
 }
 
-.search-btn{
-    width:100%;
-    margin-top:12px;
-    padding:16px;
+input:focus{
+    border-color:var(--gold);
+}
 
+button{
     border:none;
-    border-radius:15px;
-
-    background:var(--gold);
-    color:white;
-
-    font-size:16px;
     cursor:pointer;
 }
 
-.result{
-    margin-top:25px;
-    text-align:center;
-    font-size:18px;
+.search-btn{
+    background:var(--gold);
+    color:white;
+    padding:16px;
+    border-radius:16px;
+    font-size:16px;
+    font-weight:600;
 }
 
-.result strong{
-    color:#ffd86b;
+.result{
+    margin-top:20px;
+    text-align:center;
+}
+
+.guest-name{
+    font-size:22px;
+    font-weight:600;
+}
+
+.table-name{
+    font-size:32px;
+    color:var(--gold);
+    font-weight:700;
+    margin-top:10px;
 }
 
 iframe{
     width:100%;
     height:70vh;
-
     border:none;
     border-radius:20px;
-
-    background:white;
 }
 
-.photo-card{
+.photo-section{
     text-align:center;
 }
 
-.photo-card p{
-    margin:20px 0;
+.photo-section p{
     line-height:1.8;
+    color:#666;
+    margin-bottom:25px;
 }
 
-.upload-btn{
+.drive-btn{
     display:inline-block;
-
     background:var(--gold);
     color:white;
-
     text-decoration:none;
-
-    padding:15px 25px;
-    border-radius:15px;
+    padding:16px 28px;
+    border-radius:16px;
+    font-weight:600;
 }
 
 .bottom-nav{
-
     position:fixed;
-
-    bottom:15px;
-    left:50%;
-
-    transform:translateX(-50%);
-
-    width:92%;
+    left:0;
+    bottom:0;
+    width:100%;
     height:75px;
 
-    border-radius:24px;
-
-    backdrop-filter:blur(20px);
-
-    background:rgba(255,255,255,.12);
-
-    border:1px solid rgba(255,255,255,.15);
+    background:white;
+    border-top:1px solid var(--border);
 
     display:flex;
     justify-content:space-around;
     align-items:center;
 
-    z-index:9999;
+    z-index:999;
 }
 
-.nav-btn{
-
-    background:none;
-    border:none;
-
-    color:white;
-
-    cursor:pointer;
+.bottom-nav a{
+    text-decoration:none;
+    color:#444;
+    font-size:13px;
 
     display:flex;
     flex-direction:column;
     align-items:center;
-
-    gap:3px;
-
-    font-size:12px;
+    gap:4px;
 }
 
-.nav-btn .icon{
+.icon{
     font-size:24px;
+}
+
+.loading{
+    color:#888;
+    text-align:center;
+    margin-top:15px;
 }
 
 @media(max-width:480px){
 
-h1{
+.hero h1{
     font-size:2.5rem;
 }
 
@@ -253,161 +216,177 @@ h1{
 }
 
 </style>
+
 </head>
 <body>
 
-<!-- HOME -->
+<section class="hero">
 
-<section id="home" class="page active">
+```
+<div class="monogram">
+    M&O
+</div>
 
-    <div class="hero">
+<h1>
+    Miguel & Olivia
+</h1>
 
-        <div class="monogram">
-            <span>M&O</span>
-        </div>
-
-        <h1>
-            Miguel<br>
-            & Olivia
-        </h1>
-
-        <p class="subtitle">
-            Together with their families, invite you to celebrate their wedding and share this unforgettable day.
-        </p>
-
-    </div>
+<p>
+    Welcome to our wedding celebration. We are delighted to share this special day with you.
+</p>
+```
 
 </section>
 
-<!-- SEAT -->
+<section id="seat" class="section">
 
-<section id="seat" class="page">
+```
+<div class="card">
 
-    <div class="card">
+    <h2 class="section-title">
+        Find Your Seat
+    </h2>
 
-        <h2 class="section-title">
-            Find Your Seat
-        </h2>
+    <div class="search-container">
 
         <input
-            id="guestName"
             type="text"
+            id="guestName"
             placeholder="Enter your full name">
 
         <button
             class="search-btn"
             onclick="findSeat()">
-            Search
+            Find My Table
         </button>
 
-        <div id="seatResult" class="result"></div>
-
     </div>
+
+    <div id="seatResult" class="result"></div>
+
+    <div id="loading" class="loading">
+        Loading guest list...
+    </div>
+
+</div>
+```
 
 </section>
 
-<!-- FLOOR PLAN -->
+<section id="plan" class="section">
 
-<section id="plan" class="page">
+```
+<div class="card">
 
-    <div class="card">
+    <h2 class="section-title">
+        Floor Plan
+    </h2>
 
-        <h2 class="section-title">
-            Floor Plan
-        </h2>
+    <iframe src="floorplan.pdf"></iframe>
 
-        <iframe src="floorplan.pdf"></iframe>
-
-    </div>
-
-</section>
-
-<!-- PHOTOS -->
-
-<section id="photos" class="page">
-
-    <div class="card photo-card">
-
-        <h2 class="section-title">
-            Share Your Memories
-        </h2>
-
-        <p>
-            Upload your wedding photos and videos in their original quality so everyone can relive the special moments.
-        </p>
-
-        <a
-            class="upload-btn"
-            href="YOUR_UPLOAD_LINK"
-            target="_blank">
-            Upload Photos
-        </a>
-
-    </div>
+</div>
+```
 
 </section>
 
-<!-- NAVIGATION -->
+<section id="photos" class="section">
+
+```
+<div class="card photo-section">
+
+    <h2 class="section-title">
+        Share Your Memories
+    </h2>
+
+    <p>
+        Upload your photos and videos directly to our shared album.
+        Original quality is preserved, so feel free to share your best moments from the celebration.
+    </p>
+
+    <a
+        class="drive-btn"
+        href="https://drive.google.com/drive/folders/1BNH0VWLU3T7jiqIiW4NPW12PokYBeNWA"
+        target="_blank">
+        Open Photo Album
+    </a>
+
+</div>
+```
+
+</section>
 
 <nav class="bottom-nav">
 
-    <button class="nav-btn" onclick="showPage('seat')">
-        <span class="icon">🪑</span>
-        Seat
-    </button>
+```
+<a href="#seat">
+    <span class="icon">🪑</span>
+    <span>Seat</span>
+</a>
 
-    <button class="nav-btn" onclick="showPage('home')">
-        <span class="icon">💍</span>
-        Home
-    </button>
+<a href="#plan">
+    <span class="icon">🗺️</span>
+    <span>Plan</span>
+</a>
 
-    <button class="nav-btn" onclick="showPage('plan')">
-        <span class="icon">🗺️</span>
-        Plan
-    </button>
-
-    <button class="nav-btn" onclick="showPage('photos')">
-        <span class="icon">📸</span>
-        Photos
-    </button>
+<a href="#photos">
+    <span class="icon">📸</span>
+    <span>Photos</span>
+</a>
+```
 
 </nav>
 
 <script>
 
-function showPage(page){
-
-    document
-        .querySelectorAll(".page")
-        .forEach(p=>p.classList.remove("active"));
-
-    document
-        .getElementById(page)
-        .classList.add("active");
-}
-
 /*
-Replace with Google Sheet data
+IMPORTANT
+
+For the Google Sheet lookup to work,
+the sheet must be published to the web.
+
+File → Share → Publish to Web
 */
 
-const guests = [
+const SHEET_URL =
+"https://docs.google.com/spreadsheets/d/1zgGCkOnPw8-tykgWKKAXcRquJ04XbG4kEQBhO3oed9Y/gviz/tq?tqx=out:json";
 
-    {
-        name:"Miguel Faraj",
-        table:"Table 1"
-    },
+let guests = [];
 
-    {
-        name:"Olivia Smith",
-        table:"Table 5"
-    },
+async function loadGuests(){
 
-    {
-        name:"John Doe",
-        table:"Table 12"
+    try{
+
+        const response = await fetch(SHEET_URL);
+        const text = await response.text();
+
+        const json =
+            JSON.parse(
+                text.substring(47).slice(0,-2)
+            );
+
+        guests = json.table.rows.map(row => ({
+
+            name:
+                row.c[0]?.v?.toString().trim() || "",
+
+            table:
+                row.c[1]?.v?.toString().trim() || ""
+
+        }));
+
+        document.getElementById("loading").innerHTML =
+            "Guest list loaded";
+
+    }
+    catch(error){
+
+        document.getElementById("loading").innerHTML =
+            "Unable to load guest list";
+
+        console.error(error);
     }
 
-];
+}
 
 function findSeat(){
 
@@ -418,9 +397,13 @@ function findSeat(){
         .trim()
         .toLowerCase();
 
+    if(!search){
+        return;
+    }
+
     const guest =
-        guests.find(
-            x=>x.name.toLowerCase()===search
+        guests.find(g =>
+            g.name.toLowerCase().includes(search)
         );
 
     const result =
@@ -428,22 +411,29 @@ function findSeat(){
 
     if(guest){
 
-        result.innerHTML =
-        `
-        <strong>${guest.name}</strong>
-        <br><br>
-        You are seated at
-        <br>
-        <strong>${guest.table}</strong>
+        result.innerHTML = `
+            <div class="guest-name">
+                ${guest.name}
+            </div>
+
+            <div class="table-name">
+                ${guest.table}
+            </div>
         `;
 
     }else{
 
-        result.innerHTML =
-        "Guest not found.";
+        result.innerHTML = `
+            <div>
+                Guest not found
+            </div>
+        `;
 
     }
+
 }
+
+loadGuests();
 
 </script>
 
