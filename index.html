@@ -560,6 +560,70 @@
 
   .size-warning.visible { display: block; }
 
+  /* Static heads-up notice — always visible on photos page */
+  .upload-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: .7rem;
+    padding: .85rem 1rem;
+    background: #f7f3ee;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    font-size: .8rem;
+    color: var(--text-dim);
+    line-height: 1.55;
+  }
+
+  .upload-notice-icon {
+    font-size: 1rem;
+    flex-shrink: 0;
+    margin-top: .05rem;
+  }
+
+  /* Active upload banner — shown only while files are uploading */
+  .upload-banner {
+    display: none;
+    align-items: center;
+    gap: .75rem;
+    padding: .9rem 1rem;
+    background: #fff8ec;
+    border: 1.5px solid #e8c97a;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    animation: slideDown .3s ease;
+  }
+
+  .upload-banner.visible { display: flex; }
+
+  .banner-pulse {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #d4962a;
+    flex-shrink: 0;
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+
+  .upload-banner-text {
+    flex: 1;
+    font-size: .8rem;
+    color: #7a5a18;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  .upload-banner-text strong {
+    display: block;
+    font-size: .83rem;
+    margin-bottom: .1rem;
+    color: #5a3f08;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: .4; transform: scale(.75); }
+  }
+
   /* ── ANIMATIONS ── */
   @keyframes slideDown {
     from { opacity: 0; transform: translateY(-6px); }
@@ -604,7 +668,7 @@
           </div>
           <div class="result-bottom">
             <div>
-              <div class="result-label">Your Seat Location</div>
+              <div class="result-label">Your assignment</div>
               <div class="result-assignment" id="resultAssignment"></div>
             </div>
             <div class="result-icon">
@@ -649,6 +713,21 @@
       <div class="page-body">
 
         <input type="file" id="fileInput" multiple accept="image/*,video/*">
+
+        <!-- Always-visible gentle reminder -->
+        <div class="upload-notice">
+          <span class="upload-notice-icon">💡</span>
+          <span>Keep this page open and your screen unlocked until all files show a green checkmark.</span>
+        </div>
+
+        <!-- Appears only while upload is in progress -->
+        <div class="upload-banner" id="uploadBanner">
+          <div class="banner-pulse"></div>
+          <div class="upload-banner-text">
+            <strong>Upload in progress — don't leave!</strong>
+            Stay on this page and keep your screen on until everything turns green.
+          </div>
+        </div>
 
         <div class="upload-zone" id="uploadZone">
           <div class="upload-icon">
@@ -825,11 +904,27 @@
   });
 
   // ── PHOTO UPLOAD ───────────────────────────────────────────────
-  const fileInput   = document.getElementById('fileInput');
-  const selectBtn   = document.getElementById('selectBtn');
-  const uploadZone  = document.getElementById('uploadZone');
-  const fileQueue   = document.getElementById('fileQueue');
-  const sizeWarning = document.getElementById('sizeWarning');
+  const fileInput    = document.getElementById('fileInput');
+  const selectBtn    = document.getElementById('selectBtn');
+  const uploadZone   = document.getElementById('uploadZone');
+  const fileQueue    = document.getElementById('fileQueue');
+  const sizeWarning  = document.getElementById('sizeWarning');
+  const uploadBanner = document.getElementById('uploadBanner');
+
+  let activeUploads = 0;
+
+  function setActive(delta) {
+    activeUploads = Math.max(0, activeUploads + delta);
+    uploadBanner.classList.toggle('visible', activeUploads > 0);
+  }
+
+  // Warn if guest tries to close/leave while uploading
+  window.addEventListener('beforeunload', e => {
+    if (activeUploads > 0) {
+      e.preventDefault();
+      e.returnValue = 'Your photos are still uploading. Are you sure you want to leave?';
+    }
+  });
 
   // Open file picker
   selectBtn.addEventListener('click', e => {
@@ -893,6 +988,8 @@
     item.append(thumb, info, spinner);
     fileQueue.appendChild(item);
 
+    setActive(+1); // mark one upload starting
+
     // Read as base64 and POST to Apps Script
     const reader = new FileReader();
     reader.onload = function(e) {
@@ -908,6 +1005,7 @@
       .then(r => r.json())
       .then(data => {
         spinner.remove();
+        setActive(-1); // upload finished
         if (data.success) {
           item.classList.add('success');
           info.querySelector('.file-status').textContent = 'Uploaded ✓';
@@ -921,6 +1019,7 @@
       })
       .catch(() => {
         spinner.remove();
+        setActive(-1); // upload finished (with error)
         item.classList.add('error');
         info.querySelector('.file-status').textContent = 'Upload failed — try again';
         const x = document.createElement('div');
