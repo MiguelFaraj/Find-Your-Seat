@@ -24,6 +24,8 @@
     --text-dim:    #7a7168;
     --text-mute:   #b5afa6;
     --white:       #ffffff;
+    --green:       #5aab6a;
+    --red:         #c96a6a;
     --safe-bottom: env(safe-area-inset-bottom, 0px);
   }
 
@@ -38,23 +40,17 @@
     font-weight: 300;
   }
 
-  /* ── APP SHELL ── */
   .app {
     display: flex;
     flex-direction: column;
     height: 100svh;
     max-width: 480px;
     margin: 0 auto;
-    position: relative;
     background: var(--bg);
   }
 
   /* ── PAGES ── */
-  .pages {
-    flex: 1;
-    overflow: hidden;
-    position: relative;
-  }
+  .pages { flex: 1; overflow: hidden; position: relative; }
 
   .page {
     position: absolute;
@@ -68,11 +64,8 @@
     transition: opacity .25s ease, transform .25s ease;
   }
 
-  .page.active {
-    opacity: 1;
-    pointer-events: all;
-    transform: translateY(0);
-  }
+  .page.active { opacity: 1; pointer-events: all; transform: translateY(0); }
+  .page::-webkit-scrollbar { width: 0; }
 
   /* ── PAGE HEADER ── */
   .page-header {
@@ -97,14 +90,8 @@
     color: var(--text);
   }
 
-  .page-title em {
-    font-style: italic;
-    color: var(--gold-light);
-  }
-
-  .page-body {
-    padding: 1.5rem;
-  }
+  .page-title em { font-style: italic; color: var(--gold-light); }
+  .page-body { padding: 1.5rem; }
 
   /* ── BOTTOM NAV ── */
   .bottom-nav {
@@ -112,7 +99,6 @@
     background: var(--white);
     border-top: 1px solid var(--border);
     padding-bottom: var(--safe-bottom);
-    position: relative;
     z-index: 100;
     box-shadow: 0 -4px 24px rgba(0,0,0,.05);
   }
@@ -164,7 +150,6 @@
   /* ══════════════════════════════
      PAGE 1 — FIND YOUR SEAT
   ══════════════════════════════ */
-
   .data-status {
     display: flex;
     align-items: center;
@@ -182,8 +167,8 @@
     transition: background .4s;
   }
 
-  .data-status.loaded .status-dot { background: #5aab6a; }
-  .data-status.error  .status-dot { background: #c96a6a; }
+  .data-status.loaded .status-dot { background: var(--green); }
+  .data-status.error  .status-dot { background: var(--red); }
 
   .search-box {
     display: flex;
@@ -248,10 +233,7 @@
   }
 
   .suggestions li:last-child { border-bottom: none; }
-  .suggestions li:active, .suggestions li:hover {
-    background: var(--gold-dim);
-    color: var(--gold);
-  }
+  .suggestions li:active, .suggestions li:hover { background: var(--gold-dim); color: var(--gold); }
 
   /* Result card */
   .result-card {
@@ -304,11 +286,11 @@
     margin-bottom: .2rem;
   }
 
-  .result-seat {
+  .result-assignment {
     font-family: 'Cormorant Garamond', serif;
     font-size: 1.5rem;
     color: var(--gold);
-    font-weight: 400;
+    line-height: 1.2;
   }
 
   .result-icon {
@@ -318,6 +300,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
   }
 
   .result-icon svg {
@@ -346,7 +329,6 @@
   /* ══════════════════════════════
      PAGE 2 — FLOOR PLAN
   ══════════════════════════════ */
-
   .pdf-wrap {
     border-radius: 12px;
     overflow: hidden;
@@ -362,9 +344,7 @@
     display: block;
   }
 
-  .pdf-actions {
-    margin-top: 1rem;
-  }
+  .pdf-actions { margin-top: 1rem; }
 
   .btn-gold {
     width: 100%;
@@ -400,74 +380,78 @@
   /* ══════════════════════════════
      PAGE 3 — SHARE PHOTOS
   ══════════════════════════════ */
-
-  .upload-hero {
+  .upload-zone {
     background: var(--white);
-    border: 1.5px solid var(--border);
+    border: 1.5px dashed var(--border);
     border-radius: 16px;
     padding: 2.5rem 1.5rem;
     text-align: center;
-    margin-bottom: 1rem;
-    box-shadow: 0 2px 16px rgba(0,0,0,.04);
+    cursor: pointer;
+    transition: border-color .2s, box-shadow .2s;
+    position: relative;
   }
 
-  .upload-hero-icon {
-    width: 64px; height: 64px;
-    margin: 0 auto 1.2rem;
+  .upload-zone:hover, .upload-zone.dragover {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px var(--gold-dim);
+  }
+
+  .upload-icon {
+    width: 56px; height: 56px;
     background: var(--gold-dim);
-    border-radius: 18px;
+    border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0 auto 1rem;
   }
 
-  .upload-hero-icon svg {
-    width: 28px; height: 28px;
+  .upload-icon svg {
+    width: 26px; height: 26px;
     fill: none;
     stroke: var(--gold);
-    stroke-width: 1.5;
+    stroke-width: 1.6;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
 
-  .upload-hero h3 {
+  .upload-zone h3 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-weight: 300;
     color: var(--text);
-    margin-bottom: .5rem;
+    margin-bottom: .4rem;
   }
 
-  .upload-hero p {
-    font-size: .87rem;
-    color: var(--text-dim);
-    line-height: 1.75;
-    margin-bottom: 1.6rem;
-    max-width: 280px;
-    margin-left: auto;
-    margin-right: auto;
+  .upload-zone p {
+    font-size: .82rem;
+    color: var(--text-mute);
+    margin-bottom: 1.4rem;
   }
 
-  .btn-upload {
+  .upload-btn {
     display: inline-flex;
     align-items: center;
-    gap: .5rem;
-    padding: 1rem 2rem;
+    gap: .4rem;
+    padding: .8rem 1.8rem;
     background: var(--gold);
     color: #fff;
     border-radius: 50px;
-    text-decoration: none;
-    font-size: .82rem;
+    font-size: .8rem;
     letter-spacing: .1em;
     text-transform: uppercase;
-    font-weight: 500;
     font-family: 'DM Sans', sans-serif;
-    transition: opacity .2s, transform .15s;
-    box-shadow: 0 4px 20px var(--gold-glow);
+    font-weight: 500;
+    box-shadow: 0 4px 16px var(--gold-glow);
+    border: none;
+    cursor: pointer;
+    transition: opacity .2s;
   }
 
-  .btn-upload svg {
-    width: 15px; height: 15px;
+  .upload-btn:active { opacity: .82; }
+
+  .upload-btn svg {
+    width: 14px; height: 14px;
     fill: none;
     stroke: currentColor;
     stroke-width: 2.2;
@@ -475,52 +459,117 @@
     stroke-linejoin: round;
   }
 
-  .btn-upload:active { opacity: .85; transform: scale(.97); }
+  /* hidden file input */
+  #fileInput { display: none; }
 
-  .upload-tips {
-    list-style: none;
+  /* File queue */
+  .file-queue {
+    margin-top: 1rem;
     display: flex;
     flex-direction: column;
     gap: .5rem;
   }
 
-  .upload-tips li {
+  .file-item {
     display: flex;
     align-items: center;
-    gap: .9rem;
-    padding: .9rem 1rem;
+    gap: .8rem;
+    padding: .75rem 1rem;
     background: var(--white);
     border: 1.5px solid var(--border);
     border-radius: 10px;
     font-size: .84rem;
     color: var(--text-dim);
-    box-shadow: 0 1px 6px rgba(0,0,0,.03);
+    transition: border-color .3s;
   }
 
-  .tip-icon {
-    width: 34px; height: 34px;
-    flex-shrink: 0;
+  .file-item.success { border-color: var(--green); }
+  .file-item.error   { border-color: var(--red); }
+
+  .file-thumb {
+    width: 40px; height: 40px;
+    border-radius: 6px;
+    object-fit: cover;
     background: var(--surface2);
-    border-radius: 8px;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
+
+  .file-thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+
+  .file-info { flex: 1; min-width: 0; }
+
+  .file-name {
+    font-size: .82rem;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .file-status {
+    font-size: .72rem;
+    color: var(--text-mute);
+    margin-top: .15rem;
+  }
+
+  .file-item.success .file-status { color: var(--green); }
+  .file-item.error   .file-status { color: var(--red); }
+
+  .file-spinner {
+    width: 16px; height: 16px;
+    border: 2px solid var(--border);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin .7s linear infinite;
+    flex-shrink: 0;
+  }
+
+  .file-check {
+    width: 18px; height: 18px;
+    color: var(--green);
+    flex-shrink: 0;
+  }
+
+  .file-x {
+    width: 18px; height: 18px;
+    color: var(--red);
+    flex-shrink: 0;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Size warning */
+  .size-warning {
+    margin-top: .8rem;
+    padding: .75rem 1rem;
+    background: #fff8ec;
+    border: 1px solid #f0d9a8;
+    border-radius: 8px;
+    font-size: .78rem;
+    color: #8a6a2a;
+    display: none;
+  }
+
+  .size-warning.visible { display: block; }
 
   /* ── ANIMATIONS ── */
   @keyframes slideDown {
     from { opacity: 0; transform: translateY(-6px); }
     to   { opacity: 1; transform: translateY(0); }
   }
-
-  .page::-webkit-scrollbar { width: 0; }
 </style>
 </head>
 <body>
 
 <div class="app">
-
   <div class="pages">
 
     <!-- ══ PAGE 1: FIND YOUR SEAT ══ -->
@@ -539,13 +588,10 @@
         <div class="search-box">
           <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
           <input
-            type="text"
-            id="searchInput"
+            type="text" id="searchInput"
             placeholder="Search your name…"
-            autocomplete="off"
-            autocorrect="off"
-            autocapitalize="words"
-            spellcheck="false"
+            autocomplete="off" autocorrect="off"
+            autocapitalize="words" spellcheck="false"
           >
         </div>
 
@@ -558,8 +604,8 @@
           </div>
           <div class="result-bottom">
             <div>
-              <div class="result-label">Your seat</div>
-              <div class="result-seat" id="resultSeat"></div>
+              <div class="result-label">Your assignment</div>
+              <div class="result-assignment" id="resultAssignment"></div>
             </div>
             <div class="result-icon">
               <svg viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -581,22 +627,16 @@
         <h1 class="page-title">Floor<br><em>plan</em></h1>
       </div>
       <div class="page-body">
-
         <div class="pdf-wrap">
-          <!--
-            Replace "floorplan.pdf" with your actual PDF filename
-            uploaded to the same GitHub repository folder.
-          -->
+          <!-- Replace floorplan.pdf with your actual PDF filename -->
           <iframe src="floorplan.pdf" title="Venue Floor Plan" loading="lazy"></iframe>
         </div>
-
         <div class="pdf-actions">
           <a href="floorplan.pdf" target="_blank" class="btn-gold">
             <svg viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
             Open full screen
           </a>
         </div>
-
       </div>
     </div>
 
@@ -604,32 +644,29 @@
     <div class="page" id="page-photos">
       <div class="page-header">
         <div class="page-eyebrow">Share the night</div>
-        <h1 class="page-title">Your<br><em>photos</em></h1>
+        <h1 class="page-title">Upload<br><em>photos</em></h1>
       </div>
       <div class="page-body">
 
-        <div class="upload-hero">
-          <div class="upload-hero-icon">
-            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
-          </div>
-          <h3>Share your photos</h3>
-          <p>Upload your photos and videos directly to our shared album in full resolution — no compression.</p>
-          <a
-            href="https://drive.google.com/drive/folders/1727qiebXVlB0pCFu7oFWBz1ZnwyWxOE7?usp=drive_link"
-            target="_blank"
-            rel="noopener"
-            class="btn-upload"
-          >
+        <input type="file" id="fileInput" multiple accept="image/*,video/*">
+
+        <div class="upload-zone" id="uploadZone">
+          <div class="upload-icon">
             <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            Upload to Google Drive
-          </a>
+          </div>
+          <h3>Upload Photos & Videos</h3>
+          <p>Tap to select files from your phone</p>
+          <button class="upload-btn" id="selectBtn">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Select files
+          </button>
         </div>
 
-        <ul class="upload-tips">
-          <li><div class="tip-icon">📸</div>Photos and videos at full resolution</li>
-          <li><div class="tip-icon">🔓</div>No Google account required to upload</li>
-          <li><div class="tip-icon">✨</div>Visible only to the hosts</li>
-        </ul>
+        <div class="size-warning" id="sizeWarning">
+          ⚠️ Files over 50 MB were skipped. Please trim long videos before uploading.
+        </div>
+
+        <div class="file-queue" id="fileQueue"></div>
 
       </div>
     </div>
@@ -638,7 +675,6 @@
 
   <!-- ══ BOTTOM NAV ══ -->
   <nav class="bottom-nav">
-
     <button class="nav-item active" onclick="showPage('seat', this)">
       <div class="nav-icon">
         <svg viewBox="0 0 24 24">
@@ -648,7 +684,6 @@
       </div>
       <span class="nav-label">My Seat</span>
     </button>
-
     <button class="nav-item" onclick="showPage('map', this)">
       <div class="nav-icon">
         <svg viewBox="0 0 24 24">
@@ -659,7 +694,6 @@
       </div>
       <span class="nav-label">Floor Plan</span>
     </button>
-
     <button class="nav-item" onclick="showPage('photos', this)">
       <div class="nav-icon">
         <svg viewBox="0 0 24 24">
@@ -669,23 +703,23 @@
       </div>
       <span class="nav-label">Photos</span>
     </button>
-
   </nav>
 
-</div>
+</div><!-- /app -->
 
 <script>
-  // ── CONFIG ──────────────────────────────────────────────────────────────────
-  const SHEET_ID   = '1zgGCkOnPw8-tykgWKKAXcRquJ04XbG4kEQBhO3oed9Y';
-  const SHEET_NAME = 'Sheet1';
-  const CSV_URL    = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(SHEET_NAME)}`;
-  const COL_NAME   = 0; // Column A — Guest Name
-  const COL_SEAT   = 7; // Column H — Table & Seat
-  // ────────────────────────────────────────────────────────────────────────────
+  // ══════════════════════════════════════════════════════════════
+  //  CONFIG
+  // ══════════════════════════════════════════════════════════════
+  // Your Google Apps Script Web App URL
+  const UPLOAD_URL = 'https://script.google.com/macros/s/AKfycbzIk0YNc4Ap3wNjF-WDDD7hJ5NOizD6_2X45XBWSl4Zb9eLqZyQmRWEsY2kjdEqgSyRkw/exec';
 
-  let guests = [];
+  // CSV file in the same GitHub repo folder
+  // Columns: A = Name, B = Table, C = Seat
+  const CSV_URL    = 'guests.csv';
+  const MAX_MB     = 50;
 
-  // ── NAV ─────────────────────────────────────────────────────────────────────
+  // ── NAV ────────────────────────────────────────────────────────
   function showPage(id, btn) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
@@ -693,7 +727,9 @@
     btn.classList.add('active');
   }
 
-  // ── LOAD GUESTS ─────────────────────────────────────────────────────────────
+  // ── GUEST LIST ─────────────────────────────────────────────────
+  let guests = [];
+
   async function loadGuests() {
     const statusEl   = document.getElementById('dataStatus');
     const statusText = document.getElementById('dataStatusText');
@@ -707,20 +743,23 @@
     } catch(e) {
       statusEl.classList.add('error');
       statusText.textContent = 'Could not load guest list — see a team member';
-      console.error('GSheet fetch failed:', e);
+      console.error(e);
     }
   }
 
   function parseCSV(text) {
     return text.trim().split('\n').slice(1).map(row => {
-      const cols = splitRow(row);
-      const name = clean(cols[COL_NAME]);
-      const seat = clean(cols[COL_SEAT]);
-      return name ? { name, seat } : null;
+      const cols  = splitRow(row);
+      const name  = clean(cols[0]); // Column A — Name
+      const table = clean(cols[1]); // Column B — Table
+      const seat  = clean(cols[2]); // Column C — Seat
+      if (!name) return null;
+      const assignment = [table, seat].filter(Boolean).join('  ·  ');
+      return { name, assignment };
     }).filter(Boolean);
   }
 
-  function clean(s) { return (s || '').trim().replace(/^"|"$/g, ''); }
+  function clean(s)    { return (s || '').trim().replace(/^"|"$/g, ''); }
 
   function splitRow(row) {
     const cols = []; let cur = '', inQ = false;
@@ -733,15 +772,14 @@
     return cols;
   }
 
-  // ── SEARCH ──────────────────────────────────────────────────────────────────
-  const searchInput = document.getElementById('searchInput');
-  const suggestEl   = document.getElementById('suggestions');
-  const resultCard  = document.getElementById('resultCard');
-  const noResult    = document.getElementById('noResult');
-  const resultName  = document.getElementById('resultName');
-  const resultSeat  = document.getElementById('resultSeat');
-
-  const norm = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  // ── SEARCH ─────────────────────────────────────────────────────
+  const searchInput      = document.getElementById('searchInput');
+  const suggestEl        = document.getElementById('suggestions');
+  const resultCard       = document.getElementById('resultCard');
+  const noResult         = document.getElementById('noResult');
+  const resultName       = document.getElementById('resultName');
+  const resultAssignment = document.getElementById('resultAssignment');
+  const norm             = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
   searchInput.addEventListener('input', () => {
     const q = searchInput.value.trim();
@@ -772,13 +810,9 @@
 
   function showResult(g) {
     clearResults();
-    if (g.seat) {
-      resultName.textContent = g.name;
-      resultSeat.textContent = g.seat;
-      resultCard.classList.add('visible');
-    } else {
-      noResult.classList.add('visible');
-    }
+    resultName.textContent       = g.name;
+    resultAssignment.textContent = g.assignment || 'See a team member';
+    resultCard.classList.add('visible');
   }
 
   function clearResults() {
@@ -790,6 +824,115 @@
     if (!e.target.closest('#suggestions') && !e.target.closest('.search-box')) hideSug();
   });
 
+  // ── PHOTO UPLOAD ───────────────────────────────────────────────
+  const fileInput   = document.getElementById('fileInput');
+  const selectBtn   = document.getElementById('selectBtn');
+  const uploadZone  = document.getElementById('uploadZone');
+  const fileQueue   = document.getElementById('fileQueue');
+  const sizeWarning = document.getElementById('sizeWarning');
+
+  // Open file picker
+  selectBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    fileInput.click();
+  });
+
+  uploadZone.addEventListener('click', () => fileInput.click());
+
+  // Drag-and-drop (for desktop/preview)
+  uploadZone.addEventListener('dragover',  e => { e.preventDefault(); uploadZone.classList.add('dragover'); });
+  uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+  uploadZone.addEventListener('drop', e => {
+    e.preventDefault();
+    uploadZone.classList.remove('dragover');
+    handleFiles(Array.from(e.dataTransfer.files));
+  });
+
+  // File input change
+  fileInput.addEventListener('change', () => {
+    handleFiles(Array.from(fileInput.files));
+    fileInput.value = ''; // reset so same files can be re-added
+  });
+
+  function handleFiles(files) {
+    let skipped = false;
+    files.forEach(file => {
+      if (file.size > MAX_MB * 1024 * 1024) { skipped = true; return; }
+      uploadFile(file);
+    });
+    if (skipped) sizeWarning.classList.add('visible');
+  }
+
+  function uploadFile(file) {
+    // Create queue item
+    const item = document.createElement('div');
+    item.className = 'file-item';
+
+    const thumb = document.createElement('div');
+    thumb.className = 'file-thumb';
+
+    // Show image preview or video emoji
+    if (file.type.startsWith('image/')) {
+      const img = document.createElement('img');
+      img.src = URL.createObjectURL(file);
+      thumb.appendChild(img);
+    } else {
+      thumb.textContent = '🎥';
+    }
+
+    const info = document.createElement('div');
+    info.className = 'file-info';
+    info.innerHTML = `
+      <div class="file-name">${file.name}</div>
+      <div class="file-status">Uploading…</div>
+    `;
+
+    const spinner = document.createElement('div');
+    spinner.className = 'file-spinner';
+
+    item.append(thumb, info, spinner);
+    fileQueue.appendChild(item);
+
+    // Read as base64 and POST to Apps Script
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const base64 = e.target.result.split(',')[1];
+      fetch(UPLOAD_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+          fileName: file.name,
+          mimeType: file.type,
+          fileData: base64
+        })
+      })
+      .then(r => r.json())
+      .then(data => {
+        spinner.remove();
+        if (data.success) {
+          item.classList.add('success');
+          info.querySelector('.file-status').textContent = 'Uploaded ✓';
+          const check = document.createElement('div');
+          check.className = 'file-check';
+          check.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+          item.appendChild(check);
+        } else {
+          throw new Error(data.error || 'Failed');
+        }
+      })
+      .catch(() => {
+        spinner.remove();
+        item.classList.add('error');
+        info.querySelector('.file-status').textContent = 'Upload failed — try again';
+        const x = document.createElement('div');
+        x.className = 'file-x';
+        x.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+        item.appendChild(x);
+      });
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // ── INIT ───────────────────────────────────────────────────────
   loadGuests();
 </script>
 </body>
